@@ -1,23 +1,6 @@
-# miufootball_shop_mobile
+**Tugas 7** 
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-Tugas 7
-
- 1. Apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget?
+ 1. Jelaskan apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget?
 
     Widget tree adalah susunan hierarki dari semua widget yang membentuk tampilan aplikasi Flutter.
     Setiap elemen di layar seperti teks, tombol, gambar, atau layout semuanya merupakan widget yang tersusun seperti cabang-cabang pohon.
@@ -46,8 +29,6 @@ Tugas 7
 
 
 2. Sebutkan semua widget yang kamu gunakan dalam proyek ini dan jelaskan fungsinya.
-
-
 
     * MaterialApp berfungsi sebagai pembungkus utama aplikasi yang mengatur tema, navigasi, dan konfigurasi global.
     * Scaffold digunakan untuk membuat kerangka dasar halaman seperti AppBar dan Body.
@@ -140,3 +121,177 @@ Tugas 7
     ---
 
     Dengan memahami konsep widget tree, fungsi MaterialApp, perbedaan antara StatelessWidget dan StatefulWidget, pentingnya BuildContext, serta perbedaan antara hot reload dan hot restart, kamu bisa mengembangkan aplikasi Flutter dengan lebih efisien dan terstruktur.
+
+
+--------------------------------------------------------------------------------------------------
+**Tugas 8**
+1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+
+    Di Flutter, `Navigator.push()` dan `Navigator.pushReplacement()` digunakan untuk melakukan navigasi antar halaman, namun keduanya memiliki perbedaan dalam cara mereka mengelola stack (tumpukan) halaman.
+
+    `Navigator.push()`: digunakan untuk menambahkan halaman baru ke atas stack navigasi. Halaman yang sebelumnya tetap ada di stack, sehingga pengguna dapat kembali ke halaman tersebut dengan menekan tombol "Back".
+    Digunakan saat kita ingin menambah halaman baru ke stack dan memungkinkan pengguna untuk kembali ke halaman sebelumnya. Sebagai contoh, ketika pengguna berada di halaman utama dan ingin membuka halaman untuk menambah produk, mereka bisa kembali ke halaman utama setelah selesai mengisi form.
+
+    * Gunakan `Navigator.push()` saat berpindah antar halaman yang memungkinkan pengguna kembali ke halaman sebelumnya, seperti antara **Halaman Utama** dan **Halaman Detail Produk**.
+
+    contoh:
+    ```dart
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddProductFormPage()),
+    );
+    ```
+
+    `Navigator.pushReplacement()`: menggantikan halaman yang sedang tampil dengan halaman baru. Halaman sebelumnya akan dihapus dari stack, sehingga pengguna tidak dapat kembali ke halaman tersebut dengan tombol "Back".
+    Digunakan saat kita ingin mengganti halaman saat proses navigasi. Misalnya, ketika pengguna selesai mendaftar atau berhasil login, kita mengganti halaman login dengan halaman utama.
+
+    * Gunakan `Navigator.pushReplacement()` saat berpindah dari **Halaman Login** atau **Halaman Form Tambah Produk** ke **Halaman Utama**, karena setelah mengisi form, pengguna tidak perlu kembali ke halaman sebelumnya.
+
+    contoh:
+    ```dart
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MyHomePage()),
+    );
+    ```
+
+2. Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
+
+
+Di Flutter, widget seperti `Scaffold`, `AppBar`, dan `Drawer` digunakan untuk membangun struktur halaman yang konsisten di seluruh aplikasi.
+
+* `Scaffold` adalah widget yang menyediakan struktur dasar untuk sebuah halaman, seperti layout, AppBar, Drawer, FloatingActionButton, dan body. Widget ini membantu menyusun elemen-elemen tersebut agar terlihat rapi dan sesuai dengan desain aplikasi.
+* Contoh `Scaffold` digunakan di setiap halaman untuk menyediakan struktur halaman umum dengan AppBar di bagian atas dan Drawer untuk navigasi. Hal ini memastikan konsistensi desain di seluruh aplikasi.
+
+  Contoh Penggunaan:
+
+  ```dart
+  Scaffold(
+    appBar: AppBar(
+      title: const Text('MiuFootball Shop'),
+    ),
+    drawer: const LeftDrawer(),
+    body: // Konten halaman,
+  );
+  ```
+
+ * `AppBar` adalah widget yang digunakan untuk menampilkan bar bagian atas halaman, yang biasanya berisi judul, tombol aksi, dan navigasi.
+* Contoh `AppBar` digunakan di setiap halaman untuk memberikan identitas aplikasi melalui judul dan konsistensi desain.
+
+* `Drawer` adalah menu navigasi yang biasanya diletakkan di sisi kiri atau kanan layar. Pengguna dapat membuka menu ini untuk berpindah antar halaman di dalam aplikasi.
+* Contoh `Drawer` digunakan untuk menyediakan menu navigasi ke halaman seperti Halaman Utama, Tambah Produk, dan lainnya. Ini memberikan cara mudah bagi pengguna untuk menjelajahi aplikasi.
+
+
+3. Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+
+Dalam desain antarmuka pengguna, widget layout seperti `Padding`, `SingleChildScrollView`, dan `ListView` memberikan fleksibilitas dan kemudahan dalam menampilkan elemen-elemen form dengan cara yang responsif dan nyaman dilihat oleh pengguna.
+
+`Padding` digunakan untuk memberikan ruang atau jarak di sekitar widget. Ini membantu memastikan elemen-elemen UI tidak terlalu rapat dan tampil rapi.
+* Contoh Penggunaan di Aplikasi:
+
+  ```dart
+  Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: TextFormField(
+      decoration: const InputDecoration(labelText: 'Nama Produk'),
+    ),
+  );
+  ```
+
+ `SingleChildScrollView` memungkinkan konten di dalamnya untuk digulirkan jika ukurannya melebihi batas layar. Widget ini penting ketika form memiliki banyak input sehingga pengguna bisa menggulir form untuk mengisi semua data.
+* Contoh Penggunaan di Aplikasi:
+
+  ```dart
+  SingleChildScrollView(
+    child: Column(
+      children: [
+        TextFormField(...),
+        TextFormField(...),
+      ],
+    ),
+  );
+  ```
+
+`ListView` digunakan untuk menampilkan daftar elemen secara vertikal. Ini sangat berguna ketika menampilkan banyak item, seperti daftar produk atau item menu.
+* Contoh Penggunaan di Aplikasi:
+
+  ```dart
+  ListView(
+    children: items.map((item) => ListTile(title: Text(item.name))).toList(),
+  );
+  ```
+
+Kelebihan Penggunaan Widget Layout:
+* `Padding` memberikan jarak yang baik antar elemen form agar tidak terlalu rapat.
+* `SingleChildScrollView` memastikan form dapat digulirkan jika kontennya lebih panjang dari layar.
+* `ListView` memungkinkan penampilan daftar item secara dinamis dan efisien.
+
+
+4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+
+
+Penggunaan tema yang konsisten sangat penting untuk membangun identitas visual aplikasi. Di Flutter, kita dapat menyesuaikan warna tema aplikasi dengan mengubah `ThemeData`.
+
+Menyesuaikan Tema :
+* Warna Primer dan Sekunder: Tentukan warna utama dan warna aksen yang digunakan di seluruh aplikasi. Misalnya, menggunakan warna biru atau hijau yang sesuai dengan tema toko sepak bola.
+* Warna Teks dan Latar Belakang: Tentukan warna teks, latar belakang, dan elemen UI lainnya agar terlihat serasi dengan identitas merek.
+
+Contoh Pengaturan Tema di Aplikasi:
+
+Di dalam `main.dart`, kita dapat menambahkan tema di `MaterialApp` seperti berikut:
+
+```dart
+import 'package:flutter/material.dart';
+import 'screens/menu.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Football Shop',
+      theme: ThemeData(
+        primaryColor: Colors.blue, // Warna utama aplikasi
+        accentColor: Colors.green, // Warna aksen
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue, // Warna latar AppBar
+          foregroundColor: Colors.white, // Warna teks di AppBar
+        ),
+        textTheme: TextTheme(
+          bodyText1: TextStyle(color: Colors.black), // Warna teks umum
+        ),
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+```
+
+ Dengan Tema Konsisten :
+
+* Memberikan pengalaman pengguna yang menyenangkan dengan warna yang serasi.
+* Membantu membangun identitas merek yang kuat.
+* Mempermudah pengembangan dengan memusatkan pengaturan warna di satu tempat.
+
+
+# miufootball_shop_mobile
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

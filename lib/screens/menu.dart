@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../forms/add_product_form.dart'; // Pastikan file ini diimpor untuk halaman form
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -25,6 +26,43 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      // Menambahkan Drawer Menu untuk navigasi
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Football Shop',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            // Menambahkan menu navigasi di Drawer
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Halaman Utama'),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()), // Navigasi ke halaman utama
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('Tambah Produk'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddProductFormPage()), // Navigasi ke form tambah produk
+                );
+              },
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -118,11 +156,20 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!")),
+          if (item.name == "Create Product") {
+            // Navigasi ke halaman form tambah produk saat tombol "Create Product" ditekan
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddProductFormPage()),
             );
+          } else {
+            // Menampilkan SnackBar untuk tombol selain "Create Product"
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!")),
+              );
+          }
         },
         child: Container(
           padding: const EdgeInsets.all(8),
