@@ -1,24 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:miufootball_shop_mobile/screens/menu.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'screens/login.dart';
+import 'screens/register.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Football Shop',
-      debugShowCheckedModeBanner: false, // biar tidak ada tulisan "debug"
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
-            .copyWith(secondary: Colors.pinkAccent[400]),
-        useMaterial3: false, // tetap pakai gaya Material 2 agar stabil
+    return Provider(
+      create: (_) => CookieRequest(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => const LoginPage(),
+          '/register': (context) => const RegisterPage(),
+        },
       ),
-      home: MyHomePage(),
+    );
+  }
+}
+
+// main.dart
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'screens/login.dart';
+import 'screens/item_list.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Provider(
+      create: (_) => CookieRequest(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => const LoginPage(),
+          '/item_list': (context) => const ItemListPage(),
+        },
+      ),
     );
   }
 }
